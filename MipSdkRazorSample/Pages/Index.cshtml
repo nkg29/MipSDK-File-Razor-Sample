@@ -1,11 +1,133 @@
 @page
+@using System.IO;
+@using Microsoft.AspNetCore.Components.Forms;
+@using Microsoft.AspNetCore.Hosting;
+@inject IWebHostEnvironment Environment
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Home";
+}
+@using (Html.BeginForm("UploadFiles", "Mycontroller", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.LabelFor(model => model.files, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.TextBoxFor(model => model.files, "", new { @type = "file", @multiple = "multiple" })
+    @Html.ValidationMessageFor(model => model.files, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <input type="submit" value="Upload" class="btn btn-primary" />
+    </div>
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://aka.ms/mipsdkdocs">building apps with the Microsoft Information Protection SDK</a>.</p>
+    <h1 class="display-4">Watermarking Self-Service</h1>
+    @*<p>Learn about <a href="https://aka.ms/mipsdkdocs">building apps with the Microsoft Information Protection SDK</a>.</p>*@
 </div>
 
+<div class="container">
+    <div class="mb-3 mt-3">
+        <form method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label class="form-label"><b>Upload File</b></label>
+                <input type="file" name="file" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label"><b>Watermark Type</b></label>
+                <div>
+                @if(Model.ErrorMsg != null) 
+                {
+                    <p>@Model.ErrorMsg</p>
+                }
+                </div>
+                <select name="labelId" asp-items="Model.Options"></select>
+            </div>
+            <div class="mb-3">
+                @*<button type="submit" class="btn btn-primary">Upload</button>*@
+            </div>
+        </form>
+    </div>
+    <input id="submit" type="submit" value="Upload" class="btn btn-primary" />
+</div>
+
+<script type="text/javascript">
+    $('#submit').on('click', function (e) {
+
+        // preventing normal form submit
+        e.preventDefault();
+
+        // create new FormData object
+        var formData = new FormData();
+
+        // check total amount of uploaded files in file input
+        var filesLength = $("#files")[0].files.length;
+
+        // check if the file length exceeds 10 files
+        if (true == true) {
+            alert("You can upload at maximum of 10 files");
+            return false;
+        }
+        else {
+            // append files to FormData object and send with AJAX callback
+            for (var i = 0; i < filesLength; i++) {
+                formData.append("files", $("#files")[0].files[i]);
+            }
+
+            $.ajax({
+                url: '@Url.Action("OnPostAsync", "IndexModel")',
+                type: 'POST',
+                data: formData,
+                // other AJAX options here
+
+                success: function (result) {
+                    // update partial view here
+                }
+                error: function (xhr, status, err) {
+                    // error handling
+                }
+            });
+        }
+    });
+</script>
+
+@*<form action="#">
+    <label for="lang">Language</label>
+    <select name="languages" id="lang" size="10">
+        @foreach (var item in Model.MipLabels) {
+            <option style="padding: 5px 30px" value=@item.Name>@item.Name</option>
+        }
+        <option style="margin-bottom: 20px; border-bottom:1px solid rgba(153,153,153,.3)" value="" disabled="disabled"></option>
+        <option style="padding: 5px 30px" value="other">Other</option>
+    </select>
+    <input type="submit" value="Submit" />
+</form>*@
+
+@*<form class="dropdown" asp-controller="Home" asp-action="Index" method="post">
+    <select asp-for="MipLabel" asp-items="Model.MipLabels"></select>
+    <br /><button type="submit">Register</button>
+</form>*@
+@*<div class="dropdown" aria-labelledby="dropdownMenu1">
+    <a class="dropdown-item" href="#">Another action</a>
+    <a class="dropdown-item" href="#">Something else here</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="#">Separated link</a>
+</div>
+<div class="dropdown-button" aria-labelledby="dropdownMenu2">
+    <p>hi</p>
+    <a class="dropdown-item" href="#">Another action</a>
+    <a class="dropdown-item" href="#">Something else here</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="#">Separated link</a>
+</div>
+<p>here</p>
+
+
+ <div class="dropdown">
+      <!-- Link or button to toggle dropdown -->
+        <a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+        <li><a tabindex="-1" href="#">Action</a></li>
+        <li><a tabindex="-1" href="#">Another action</a></li>
+        <li><a tabindex="-1" href="#">Something else here</a></li>
+        <li class="divider"></li>
+        <li><a tabindex="-1" href="#">Separated link</a></li>
+      </ul>
+    </div>*@

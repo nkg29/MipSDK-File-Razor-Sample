@@ -24,6 +24,13 @@
                 <span asp-validation-for="DataPolicy.MinLabelIdForAction" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <input id="oFile" type="file" runat="server" NAME="oFile">
+                <asp:button id="btnUpload" type="submit" text="Upload" runat="server"></asp:button>
+                <asp:Panel ID="frmConfirmation" Visible="False" Runat="server">
+                <asp:Label id="lblUploadResult" Runat="server"></asp:Label>
+                </asp:Panel>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>

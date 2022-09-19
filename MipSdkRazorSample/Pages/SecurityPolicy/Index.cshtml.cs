@@ -22,14 +22,13 @@ namespace MipSdkRazorSample.Pages.SecurityPolicy
         private readonly IMipService _mipApi;
         private readonly string _userId;
 
-        
 
-        public IndexModel(MipSdkRazorSample.Data.MipSdkRazorSampleContext context)
+        public IndexModel(MipSdkRazorSampleContext context)
         {                                
             _context = context;
-            
             _mipApi = _context.GetService<IMipService>();
-            _userId = _context.GetService<IHttpContextAccessor>().HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Subject.Name;                                                      
+            _userId = _context.GetService<IHttpContextAccessor>().HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Subject.Name;
+        
         }
 
         public IList<DataPolicy> DataPolicy { get;set; }

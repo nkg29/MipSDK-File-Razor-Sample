@@ -3,10 +3,9 @@ page_type: sample
 languages:
 - csharp
 products:
-- m365
-- office-365
+- azure
 description: "See the ease of integrating the MIP SDK with custom applications, as well as the experience in a line-of-business/SaaS application."
-urlFragment: MipSDK-File-Razor-Sample
+urlFragment: Mip-FileSdk-Razor-Sample
 ---
 
 # MIP SDK Razor Sample
@@ -25,7 +24,7 @@ This project framework provides the following features:
 ### Prerequisites
 
 - A supported version of Windows
-- .NET 6.0
+- .NET Core 6.0
 - [Microsoft Information Protection SDK](https://aka.ms/mipsdkdocs) 1.11 or later
 - Visual Studio 2022
 

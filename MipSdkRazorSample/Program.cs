@@ -13,7 +13,7 @@ using MipSdkRazorSample.Services;
 using MipSdkRazorSample.Models;
 using System.Net.Security;
 using Azure.Identity;
-
+using MipSdkRazorSample.FileUploadService;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,6 +33,8 @@ builder.Services.AddAuthorization(options =>
 });
 builder.Services.AddRazorPages()
     .AddMicrosoftIdentityUI();
+
+builder.Services.AddScoped<IFileUploadService, LocalFileUploadService>();
 
 builder.Services.AddDbContext<MipSdkRazorSampleContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("MipSdkRazorSampleContext")));
